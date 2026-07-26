@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect } from 'react';
+
 import GameCard from '@/components/GameCard';
+import Header from '@/components/Header';
 
 export default function Home() {
   const [juegos, setJuegos] = useState([]);
@@ -32,7 +34,7 @@ export default function Home() {
   );
   return (
     <main >
-
+      <Header />
       <input
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
