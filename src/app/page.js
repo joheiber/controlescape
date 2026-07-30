@@ -39,7 +39,7 @@ export default function Home() {
 
 
   return (
-    <main >
+    <main className="flex flex-col">
       <Header />
       <Hero juegosDestacados={destacados} />
 
