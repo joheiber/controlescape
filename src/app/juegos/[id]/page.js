@@ -1,3 +1,5 @@
+import Header from "@/components/Header";
+
 export default async function DetalleJuego({ params }) {
   const { id } = await params;
 
@@ -16,20 +18,58 @@ export default async function DetalleJuego({ params }) {
   }
 
   const juego = await obtenerDetalleJuego(id);
-
+  console.log("Detalle del juego:", juego);
   if (!juego) {
-    return <p>No se pudo cargar la información del juego.</p>;
+    return <p className="p-6">No se pudo cargar la información del juego.</p>;
   }
 
   return (
-    <div className="p-6">
-      <img
-        src={juego.background_image}
-        alt={juego.name}
-        className="w-full h-80 object-cover rounded-lg"
-      />
-      <h1 className="text-3xl font-bold mt-4">{juego.name}</h1>
-      <p className="text-gray-600 mt-2">⭐ {juego.rating}</p>
+    <div>
+      <Header />
+
+      {/* Imagen grande de portada */}
+      <div className="w-full h-80 relative">
+        <img
+          src={juego.background_image}
+          alt={juego.name}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+
+      {/* Contenido principal */}
+      <div className="max-w-4xl mx-auto px-6 -mt-16 relative">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h1 className="text-3xl font-bold text-gray-800">{juego.name}</h1>
+          <p className="text-yellow-500 mt-1">⭐ {juego.rating} / 5</p>
+
+          {/* Datos rápidos en fila */}
+          <div className="flex flex-wrap gap-4 mt-4 text-sm text-gray-600">
+            <span>📅 {juego.released}</span>
+            <span>🎮 {juego.platforms?.map(p => p.platform.name).join(', ')}</span>
+          </div>
+
+          {/* Descripción */}
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold text-gray-800">Descripción</h2>
+            <p className="text-gray-600 mt-2 leading-relaxed">
+              {juego.description_raw}
+            </p>
+          </div>
+
+          {/* Géneros como tags */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {juego.genres?.map((genero) => (
+              <span
+                key={genero.id}
+                className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full"
+              >
+                {genero.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
