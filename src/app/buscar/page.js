@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import GameCard from '@/components/GameCard';
 
 import Header from '@/components/Header';
+import BarraFiltros from '@/components/BarraFiltros';
 
 export default function Buscar() {
   const searchParams = useSearchParams();
@@ -39,6 +40,12 @@ export default function Buscar() {
   return (
     <>
       <Header />
+      {/* <BarraFiltros
+        opciones={['todos', 'accion', 'rpg', 'deportes', 'estrategia']}
+        juegos={juegosFalsos}
+        campoFiltro="genero"
+        onFiltrar={handleFiltro}
+      /> */}
       <div className="p-6">
         <h1 className="text-2xl font-bold text-gray-800">
         </h1>
