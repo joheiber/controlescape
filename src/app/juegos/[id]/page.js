@@ -1,3 +1,6 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
 export default async function DetalleJuego({ params }) {
   const { id } = await params;
 
@@ -22,6 +25,8 @@ export default async function DetalleJuego({ params }) {
   }
 
   return (
+    <>
+    <Header />
     <div>
       <div className="w-full h-80 relative">
         <img
@@ -62,5 +67,8 @@ export default async function DetalleJuego({ params }) {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
+    
   );
 }
