@@ -70,7 +70,7 @@ export default function Buscar() {
   }, [query, pagina, genero, plataforma]);
 
   useEffect(() => {
-    setPagina(1);
+    setPagina((prev) => (prev !== 1 ? 1 : prev));
   }, [query, genero, plataforma]);
 
   function handleFiltroGenero(nuevoGenero) {
