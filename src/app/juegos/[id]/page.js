@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import FormularioResena from "@/components/FormularioResena";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { auth } from "@/lib/auth";
+import BotonesResena from "@/components/BotonesResena";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
@@ -34,6 +36,7 @@ export default async function DetalleJuego({ params }) {
     include: { usuario: true },
     orderBy: { createdAt: 'desc' },
   });
+  const session = await auth();
 
   return (
     <>
@@ -75,6 +78,7 @@ export default async function DetalleJuego({ params }) {
                 </span>
               ))}
             </div>
+
             <div className="mt-6" >
               <FormularioResena juegoId={id} />
             </div>
@@ -83,23 +87,25 @@ export default async function DetalleJuego({ params }) {
                 Reseñas ({resenas.length})
               </h2>
 
-              {resenas.length === 0 ? (
-                <p className="text-gray-500">Aún no hay reseñas para este juego.</p>
-              ) : (
-                <div className="flex flex-col gap-4">
-                  {resenas.map((resena) => (
-                    <div key={resena.id} className="bg-white rounded-lg shadow p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="font-semibold text-gray-800">
-                          {resena.usuario.name}
-                        </span>
-                        <span className="text-yellow-500">⭐ {resena.rating}</span>
-                      </div>
-                      <p className="text-gray-600 mt-2">{resena.contenido}</p>
-                    </div>
-                  ))}
+              {resenas.map((resena) => (
+                <div key={resena.id} className="bg-white rounded-lg shadow p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-gray-800">
+                      {resena.usuario.name}
+                    </span>
+                    <span className="text-yellow-500">⭐ {resena.rating}</span>
+                  </div>
+                  <p className="text-gray-600 mt-2">{resena.contenido}</p>
+
+                  {session?.user?.id === resena.usuarioId && (
+                    <BotonesResena
+                      resenaId={resena.id}
+                      contenidoActual={resena.contenido}
+                      ratingActual={resena.rating}
+                    />
+                  )}
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </div>
